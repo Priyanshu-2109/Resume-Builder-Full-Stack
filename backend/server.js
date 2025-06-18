@@ -33,18 +33,18 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 
 // Server uploads folder
+// Get __dirname equivalent in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(
   "/uploads",
-  express.static(path.dirname("uploads"), {
+  express.static(path.join(__dirname, "uploads"), {
     setHeaders: (res, path) => {
       res.set("Access-Control-Allow-Origin", "http://localhost:5173");
     },
   })
 );
-
-// Get __dirname equivalent in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // app.use(
 //   '/uploads',
