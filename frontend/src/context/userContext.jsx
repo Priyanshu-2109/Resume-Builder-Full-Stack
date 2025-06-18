@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useEffect, useState } from 'react';
-import axiosInstance from '../utils/axiosInstance';
-import { API_PATH } from '../utils/apiPaths';
+import { createContext, useEffect, useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
+import { API_PATH } from "../utils/apiPaths";
 
 export const UserContext = createContext();
 
@@ -12,7 +12,7 @@ function UserProvider({ children }) {
 
   useEffect(() => {
     if (user) return;
-    const accessToken = localStorage.getItem('token');
+    const accessToken = localStorage.getItem("token");
     if (!accessToken) {
       setLoading(false);
       return;
@@ -20,8 +20,9 @@ function UserProvider({ children }) {
     const fetchUser = async () => {
       try {
         const response = await axiosInstance.get(API_PATH.AUTH.GET_PROFILE);
+        setUser(response.data); // Set the user data from the response
       } catch (err) {
-        console.error('User not authenticated', err);
+        console.error("User not authenticated", err);
         clearUser();
       } finally {
         setLoading(false);
@@ -32,13 +33,13 @@ function UserProvider({ children }) {
 
   function updateUser(userData) {
     setUser(userData);
-    localStorage.setItem('token', userData.token); // Save token
+    localStorage.setItem("token", userData.token); // Save token
     setLoading(false);
   }
 
   function clearUser() {
     setUser(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   }
 
   return (
